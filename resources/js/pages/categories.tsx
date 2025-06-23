@@ -1,7 +1,8 @@
 import DashLayout from '@/layouts/dash-layout';
 import { Link } from '@inertiajs/react';
 
-export default function Categories() {
+export default function Categories({ categories }: any) {
+    console.log(categories);
     return (
         <DashLayout title="Categories">
             <Link

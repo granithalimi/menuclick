@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Orders;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class OrdersController extends Controller
 {
@@ -13,6 +14,9 @@ class OrdersController extends Controller
     public function index()
     {
         //
+        return Inertia::render("orders", [
+            "orders" => Orders::all(),
+        ]);
     }
 
     /**
