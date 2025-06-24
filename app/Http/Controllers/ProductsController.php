@@ -56,9 +56,12 @@ class ProductsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Products $products)
+    public function show(Products $product)
     {
         //
+        return Inertia::render("show-product", [
+            "product" => Products::where("id", $product->id)->first(),
+        ]);
     }
 
     /**

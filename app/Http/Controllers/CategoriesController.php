@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categories;
+use App\Models\Products;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -46,9 +47,15 @@ class CategoriesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Categories $categories)
+    public function show(Categories $category)
     {
         //
+        $p = Products::where("category_id", $category->id)->get();
+        $name = Categories::where("id", $category->id)->first()->name;
+        return Inertia::render("show-products", [
+            "categories" => $p,
+            "name" => $name,
+        ]);
     }
 
     /**
