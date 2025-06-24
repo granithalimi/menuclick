@@ -16,10 +16,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
-    Route::resource('categorie', CategoriesController::class);
+    Route::resource('category', CategoriesController::class);
     Route::resource('product', ProductsController::class);
     Route::resource('order', OrdersController::class);
-    Route::resource('table', TablesController::class);
+    Route::resource('table', TablesController::class)->except(['show', 'store']);
 });
 
 require __DIR__ . '/settings.php';

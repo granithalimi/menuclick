@@ -12,7 +12,7 @@ export default function Dashboard() {
             </Link>
             <Link
                 className="ms-3 rounded-lg border-1 border-white px-3 py-3 text-white duration-300 hover:bg-white hover:text-black"
-                href={route('categorie.index')}
+                href={route('category.index')}
             >
                 Categories
             </Link>

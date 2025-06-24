@@ -4,9 +4,11 @@ import { useEffect, useState } from 'react';
 
 export default function Tables({ tables }: any) {
     const [table, setTables] = useState<any>({});
+
     useEffect(() => {
         setTables(tables);
     }, [tables]);
+
     return (
         <DashLayout title="Tables">
             <Link
