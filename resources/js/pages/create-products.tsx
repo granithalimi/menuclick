@@ -6,7 +6,7 @@ export default function CreateProducts({ categories }: any) {
     const { data, setData, post } = useForm<any>({
         name: '',
         desc: '',
-        image: undefined,
+        pic: undefined,
         category: undefined,
     });
     const handleSubmit = (e: any) => {
@@ -17,6 +17,7 @@ export default function CreateProducts({ categories }: any) {
             },
         });
     };
+
     return (
         <DashLayout title="Create Products">
             <Link
@@ -45,7 +46,7 @@ export default function CreateProducts({ categories }: any) {
                 </div>
                 <div className="mt-2 flex flex-col justify-start">
                     <label htmlFor="pic">Select a Picture</label>
-                    <input type="file" id="pic" className="w-80 rounded-lg bg-white py-1 ps-5 text-black" />
+                    <input type="file" id="pic" onChange={e => setData("pic", e.target.value)} className="w-80 rounded-lg bg-white py-1 ps-5 text-black" />
                 </div>
                 <div className="mt-2 flex flex-col justify-start">
                     <label htmlFor="desc">Write a Description about the product</label>
@@ -56,6 +57,7 @@ export default function CreateProducts({ categories }: any) {
                     {categories && categories.length > 0 && (
                         <>
                             <select onChange={e => setData("category", e.target.value)} className='bg-white w-80 rounded-lg text-black ps-5 py-1'>
+                            <option value={undefined}>---</option>
                             {
                                 categories.map((c:any, ind:any) => (
                                     <option value={c.id} key={ind}>{c.name}</option>

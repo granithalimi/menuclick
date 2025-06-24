@@ -5,7 +5,7 @@ import { FaArrowLeft } from 'react-icons/fa6';
 export default function CreateCategories() {
     const {data, setData, post} = useForm<any>({
         name: "",
-        image: undefined,
+        pic: undefined,
     })
     const handleSubmit = (e:any) => {
         e.preventDefault()
@@ -38,7 +38,7 @@ export default function CreateCategories() {
                 </div>
                 <div className="mt-2 flex flex-col justify-start">
                     <label htmlFor="pic">Select a Picture</label>
-                    <input type="file" id="pic" className="w-80 rounded-lg bg-white py-1 ps-5 text-black" />
+                    <input onChange={e => setData("pic", e.target.value)} type="file" id="pic" className="w-80 rounded-lg bg-white py-1 ps-5 text-black" />
                 </div>
                 <button type='submit' className="mt-3 cursor-pointer rounded-lg bg-blue-500 px-3 py-1 text-sm font-extrabold text-white hover:bg-blue-400">
                     Create

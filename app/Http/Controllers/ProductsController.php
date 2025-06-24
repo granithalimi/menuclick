@@ -40,6 +40,8 @@ class ProductsController extends Controller
         $request->validate([
             'name' => 'required',
             'category' => 'required',
+            'pic' => 'required',
+            'desc' => 'required',
         ]);
         /* fix the picture thing */
         Products::create([
