@@ -6,7 +6,7 @@ export default function CreateProducts({ categories }: any) {
     const { data, setData, post } = useForm<any>({
         name: '',
         desc: '',
-        pic: undefined,
+        pic: null,
         category: undefined,
     });
     const handleSubmit = (e: any) => {
@@ -34,7 +34,7 @@ export default function CreateProducts({ categories }: any) {
                 Dashboard
             </Link>
 
-            <form onSubmit={(e) => handleSubmit(e)} className="mt-5" encType="multipart-formdata">
+            <form onSubmit={(e) => handleSubmit(e)} className="mt-5" encType="multipart/form-data">
                 <div className="flex flex-col">
                     <label htmlFor="name">Product Name</label>
                     <input
@@ -46,7 +46,7 @@ export default function CreateProducts({ categories }: any) {
                 </div>
                 <div className="mt-2 flex flex-col justify-start">
                     <label htmlFor="pic">Select a Picture</label>
-                    <input type="file" id="pic" onChange={e => setData("pic", e.target.value)} className="w-80 rounded-lg bg-white py-1 ps-5 text-black" />
+                    <input type="file" id="pic" onChange={(e:any) => setData("pic", e.target.files[0])} className="w-80 rounded-lg bg-white py-1 ps-5 text-black" />
                 </div>
                 <div className="mt-2 flex flex-col justify-start">
                     <label htmlFor="desc">Write a Description about the product</label>

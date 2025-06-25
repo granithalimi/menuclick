@@ -37,10 +37,15 @@ class CategoriesController extends Controller
         //
         $request->validate([
             'name' => 'required',
-            'pic' => 'required',
         ]);
         /* fix the picture thing */
-        Categories::create(["name" => $request->name, "pic" => $request->name]);
+        $pic = "";
+        if ($request->hasFile("pic")) {
+            $path = $request->file("pic")->store("images", "public");
+            $pic = str_replace('images/', '', $path);
+        }
+
+        Categories::create(["name" => $request->name, "pic" => $pic]);
         return redirect()->back();
     }
 
@@ -76,8 +81,17 @@ class CategoriesController extends Controller
     {
         //
         $c = Categories::where("id", $category->id)->first();
-        $c->update(["name" => $request->name, "pic" => $request->pic]);
-        return redirect()->back();
+
+        if ($request->hasFile("pic")) {
+            $pic = "";
+            $path = $request->file("pic")->store("images", "public");
+            $pic = str_replace('images/', '', $path);
+            $c->update(["name" => $request->name, "pic" => $pic]);
+            return redirect()->back();
+        } else {
+            $c->update(["name" => $request->name]);
+            return redirect()->back();
+        }
     }
 
     /**

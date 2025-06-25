@@ -12,7 +12,7 @@ Route::get('/', function () {
 })->name('home');
 
 /* role:admin */
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');

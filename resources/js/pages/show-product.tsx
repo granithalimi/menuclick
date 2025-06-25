@@ -20,10 +20,7 @@ export default function ShowProduct({ product }: any) {
             </Link>
 
             <div>
-                <img
-                    className="mt-1 h-40 w-40 rounded-lg object-cover"
-                    src="https://media-cdn.tripadvisor.com/media/photo-p/0e/96/7f/97/coffe-latte-100-arabica.jpg"
-                />
+                <img className="mt-1 h-40 w-40 rounded-lg object-cover" src={`${window.location.origin}/storage/images/${product.pic}`} />
                 <h1>Name: {product.name}</h1>
                 <h1>Description: {product.description}</h1>
                 <h1>Price: </h1>

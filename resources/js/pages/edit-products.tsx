@@ -11,7 +11,7 @@ export default function EditProducts({ product, categories }: any) {
     } = useForm<any>({
         name: product.name,
         desc: product.description,
-        image: product.image,
+        pic: null,
         category: product.category_id,
     });
     const handleUpdate = (e: any) => {
@@ -40,7 +40,7 @@ export default function EditProducts({ product, categories }: any) {
                 Dashboard
             </Link>
 
-            <form onSubmit={(e) => handleUpdate(e)} className="mt-5 mb-2" encType="multipart-formdata">
+            <form onSubmit={(e) => handleUpdate(e)} className="mt-5 mb-2" encType="multipart/form-data">
                 <div className="flex flex-col">
                     <label htmlFor="name">Product Name</label>
                     <input
@@ -52,7 +52,7 @@ export default function EditProducts({ product, categories }: any) {
                 </div>
                 <div className="mt-2 flex flex-col justify-start">
                     <label htmlFor="pic">Select a Picture</label>
-                    <input type="file" id="pic" className="w-80 rounded-lg bg-white py-1 ps-5 text-black" />
+                    <input type="file" onChange={(e:any) => setData("pic", e.target.files[0])} id="pic" className="w-80 rounded-lg bg-white py-1 ps-5 text-black" />
                 </div>
                 <div className="mt-2 flex flex-col justify-start">
                     <label htmlFor="desc">Write a Description about the product</label>

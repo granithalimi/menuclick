@@ -10,7 +10,7 @@ export default function EditCategories({ category }: any) {
         delete: destroy,
     } = useForm<any>({
         name: category.name,
-        pic: category.pic,
+        pic: null,
     });
 
     const handleUpdate = (e: any) => {
@@ -39,7 +39,7 @@ export default function EditCategories({ category }: any) {
             >
                 Dashboard
             </Link>
-            <form onSubmit={(e) => handleUpdate(e)} className="mt-5 mb-2" encType="multipart-formdata">
+            <form onSubmit={(e) => handleUpdate(e)} className="mt-5 mb-2" encType="multipart/form-data">
                 <div className="flex flex-col">
                     <label htmlFor="name">Category Name</label>
                     <input
@@ -51,7 +51,13 @@ export default function EditCategories({ category }: any) {
                 </div>
                 <div className="mt-2 flex flex-col justify-start">
                     <label htmlFor="pic">Select a Picture</label>
-                    <input type="file" id="pic" className="w-80 rounded-lg bg-white py-1 ps-5 text-black" />
+                    <input
+                        type="file"
+                        id="pic"
+                        name="pic"
+                        onChange={(e: any) => setData('pic', e.target.files[0])}
+                        className="w-80 rounded-lg bg-white py-1 ps-5 text-black"
+                    />
                 </div>
                 <button
                     type="submit"

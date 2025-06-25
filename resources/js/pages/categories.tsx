@@ -37,7 +37,7 @@ export default function Categories({ categories }: any) {
                             >
                                 <img
                                     className="mt-1 h-40 w-40 rounded-lg object-cover"
-                                    src="https://media-cdn.tripadvisor.com/media/photo-p/0e/96/7f/97/coffe-latte-100-arabica.jpg"
+                                    src={`${window.location.origin}/storage/images/${c.pic}`}
                                 />
                                 <h1 className="text-xl font-extrabold">{c.name}</h1>
                                 <div className="flex items-center justify-center gap-1">

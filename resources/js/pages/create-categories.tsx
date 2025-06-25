@@ -2,10 +2,11 @@ import DashLayout from '@/layouts/dash-layout';
 import { Link, useForm } from '@inertiajs/react';
 import { FaArrowLeft } from 'react-icons/fa6';
 
-export default function CreateCategories() {
+export default function CreateCategories({errors}:any) {
+    console.log(errors)
     const {data, setData, post} = useForm<any>({
         name: "",
-        pic: undefined,
+        pic: null,
     })
     const handleSubmit = (e:any) => {
         e.preventDefault()
@@ -31,14 +32,14 @@ export default function CreateCategories() {
                 Dashboard
             </Link>
 
-            <form onSubmit={e => handleSubmit(e)} className="mt-5" encType='multipart-formdata'>
+            <form onSubmit={e => handleSubmit(e)} className="mt-5" encType='multipart/form-data'>
                 <div className="flex flex-col">
                     <label htmlFor="name">Category Name</label>
                     <input id="name" value={data.name} onChange={(e:any) => setData("name", e.target.value)} className="w-80 rounded-lg bg-white py-1 ps-3 text-black" />
                 </div>
                 <div className="mt-2 flex flex-col justify-start">
                     <label htmlFor="pic">Select a Picture</label>
-                    <input onChange={e => setData("pic", e.target.value)} type="file" id="pic" className="w-80 rounded-lg bg-white py-1 ps-5 text-black" />
+                    <input type="file" id="pic" onChange={(e:any) => setData("pic", e.target.files[0])} className="w-80 rounded-lg bg-white py-1 ps-5 text-black" />
                 </div>
                 <button type='submit' className="mt-3 cursor-pointer rounded-lg bg-blue-500 px-3 py-1 text-sm font-extrabold text-white hover:bg-blue-400">
                     Create

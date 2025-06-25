@@ -40,14 +40,18 @@ class ProductsController extends Controller
         $request->validate([
             'name' => 'required',
             'category' => 'required',
-            'pic' => 'required',
             'desc' => 'required',
         ]);
         /* fix the picture thing */
+        $pic = "";
+        if ($request->hasFile("pic")) {
+            $path = $request->file("pic")->store("images", "public");
+            $pic = str_replace('images/', '', $path);
+        }
         Products::create([
             "category_id" => $request->category,
             "name" => $request->name,
-            "pic" => $request->name,
+            "pic" => $pic,
             "description" => $request->desc
         ]);
         return redirect()->back();
@@ -83,13 +87,25 @@ class ProductsController extends Controller
     {
         //
         $p = Products::where("id", $product->id)->first();
-        $p->update([
-            "category_id" => $request->category,
-            "name" => $request->name,
-            "pic" => $request->name,
-            "description" => $request->desc
-        ]);
-        return redirect()->back();
+        if ($request->hasFile("pic")) {
+            $pic = "";
+            $path = $request->file("pic")->store("images", "public");
+            $pic = str_replace('images/', '', $path);
+            $p->update([
+                "category_id" => $request->category,
+                "name" => $request->name,
+                "pic" => $pic,
+                "description" => $request->desc
+            ]);
+            return redirect()->back();
+        } else {
+            $p->update([
+                "category_id" => $request->category,
+                "name" => $request->name,
+                "description" => $request->desc
+            ]);
+            return redirect()->back();
+        }
     }
 
     /**
