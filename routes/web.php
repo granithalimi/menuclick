@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\TablesController;
+use App\Http\Controllers\UpdatePicsController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -12,14 +13,16 @@ Route::get('/', function () {
 })->name('home');
 
 /* role:admin */
-Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
-    Route::resource('category', CategoriesController::class);
-    Route::resource('product', ProductsController::class);
+    Route::resource('category', CategoriesController::class)->except(["update"]);
+    Route::resource('product', ProductsController::class)->except(['update']);
     Route::resource('order', OrdersController::class);
     Route::resource('table', TablesController::class)->except(['show', 'store']);
+    Route::post("category/update", [UpdatePicsController::class, 'updateCategories'])->name("category.update");;
+    Route::post("product/update", [UpdatePicsController::class, 'updateProducts'])->name("product.update");;
 });
 
 require __DIR__ . '/settings.php';

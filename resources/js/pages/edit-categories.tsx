@@ -6,16 +6,17 @@ export default function EditCategories({ category }: any) {
     const {
         data,
         setData,
-        put,
+        post,
         delete: destroy,
     } = useForm<any>({
+        id: category.id,
         name: category.name,
         pic: null,
     });
 
     const handleUpdate = (e: any) => {
         e.preventDefault();
-        put(route('category.update', category.id));
+        post(route('category.update'));
     };
 
     const handleDelete = (e: any) => {

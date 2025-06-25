@@ -6,9 +6,10 @@ export default function EditProducts({ product, categories }: any) {
     const {
         data,
         setData,
-        put,
+        post,
         delete: destroy,
     } = useForm<any>({
+        id: product.id,
         name: product.name,
         desc: product.description,
         pic: null,
@@ -16,7 +17,7 @@ export default function EditProducts({ product, categories }: any) {
     });
     const handleUpdate = (e: any) => {
         e.preventDefault();
-        put(route('product.update', product.id));
+        post(route('product.update', product.id));
     };
     const handleDelete = (e: any) => {
         if (confirm('Are you sure you want to delete this category?')) {
@@ -52,7 +53,12 @@ export default function EditProducts({ product, categories }: any) {
                 </div>
                 <div className="mt-2 flex flex-col justify-start">
                     <label htmlFor="pic">Select a Picture</label>
-                    <input type="file" onChange={(e:any) => setData("pic", e.target.files[0])} id="pic" className="w-80 rounded-lg bg-white py-1 ps-5 text-black" />
+                    <input
+                        type="file"
+                        onChange={(e: any) => setData('pic', e.target.files[0])}
+                        id="pic"
+                        className="w-80 rounded-lg bg-white py-1 ps-5 text-black"
+                    />
                 </div>
                 <div className="mt-2 flex flex-col justify-start">
                     <label htmlFor="desc">Write a Description about the product</label>

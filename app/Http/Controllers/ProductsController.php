@@ -86,26 +86,6 @@ class ProductsController extends Controller
     public function update(Request $request, Products $product)
     {
         //
-        $p = Products::where("id", $product->id)->first();
-        if ($request->hasFile("pic")) {
-            $pic = "";
-            $path = $request->file("pic")->store("images", "public");
-            $pic = str_replace('images/', '', $path);
-            $p->update([
-                "category_id" => $request->category,
-                "name" => $request->name,
-                "pic" => $pic,
-                "description" => $request->desc
-            ]);
-            return redirect()->back();
-        } else {
-            $p->update([
-                "category_id" => $request->category,
-                "name" => $request->name,
-                "description" => $request->desc
-            ]);
-            return redirect()->back();
-        }
     }
 
     /**
