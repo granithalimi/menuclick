@@ -27,7 +27,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::get("table/{table}", [HomeController::class, 'index']);
-Route::get("table/{table}/categories/{category}", [HomeController::class, 'show'])->name("table.category");
+/* Route::get("table/{table}/categories/{category}", [HomeController::class, 'show'])->name("table.category"); */
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';

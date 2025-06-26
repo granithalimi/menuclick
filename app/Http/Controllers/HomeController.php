@@ -13,8 +13,10 @@ class HomeController extends Controller
     //
     public function index(Tables $table){
         $c = Categories::all();
+        $p = Products::all();
         return Inertia::render("home", [
             'categories' => $c,
+            'products' => $p,
             'table_id' => $table->id,
         ]);
     }
