@@ -16,7 +16,7 @@ class HomeController extends Controller
         $p = Products::all();
         return Inertia::render("home", [
             'categories' => $c,
-            'products' => $p,
+            'all_products' => $p,
             'table_id' => $table->id,
         ]);
     }
