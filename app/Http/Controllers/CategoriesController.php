@@ -38,7 +38,7 @@ class CategoriesController extends Controller
         $request->validate([
             'name' => 'required',
         ]);
-        $pic = "";
+        $pic = "default.jpg";
         if ($request->hasFile("pic")) {
             $path = $request->file("pic")->store("images", "public");
             $pic = str_replace('images/', '', $path);

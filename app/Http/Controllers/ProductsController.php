@@ -41,9 +41,10 @@ class ProductsController extends Controller
             'name' => 'required',
             'category' => 'required',
             'desc' => 'required',
+            'price' => 'required',
         ]);
         /* fix the picture thing */
-        $pic = "";
+        $pic = "default.jpg";
         if ($request->hasFile("pic")) {
             $path = $request->file("pic")->store("images", "public");
             $pic = str_replace('images/', '', $path);
@@ -52,6 +53,7 @@ class ProductsController extends Controller
             "category_id" => $request->category,
             "name" => $request->name,
             "pic" => $pic,
+            "price" => $request->price,
             "description" => $request->desc
         ]);
         return redirect()->back();

@@ -27,15 +27,28 @@ export default function Tables({ tables }: any) {
             {table && table.length > 0 && (
                 <>
                     <div className="mb-5 text-3xl font-extrabold">Tables</div>
-                    <div className="grid grid-cols-10">
+                    <div className="grid grid-cols-4">
                         {table.map((t: any, ind: any) => (
-                            <Link
-                                href={route('table.edit', t.id)}
-                                className="mx-3 my-3 rounded-lg border-1 border-white py-1 text-center text-white duration-300 hover:bg-white hover:text-black"
+                            <div
                                 key={ind}
+                                className="mx-3 my-3 flex flex-col items-center gap-3 rounded-sm border-1 border-white py-3 text-center text-white duration-300"
                             >
-                                {t.table_num}
-                            </Link>
+                                <h1 className="text-xl font-extrabold">{t.table_num}</h1>
+                                <div className="flex items-center justify-center gap-1">
+                                    {/* <Link */}
+                                    {/*     href={route("table.show", t.id)} */}
+                                    {/*     className="cursor-pointer rounded-lg bg-green-500 px-3 py-1 text-sm font-extrabold text-white duration-300 hover:bg-green-400" */}
+                                    {/* > */}
+                                    {/*     Show Orders */}
+                                    {/* </Link> */}
+                                    <Link
+                                        href={route('table.edit', t.id)}
+                                        className="cursor-pointer rounded-lg bg-gray-500 px-3 py-1 text-sm font-extrabold text-white duration-300 hover:bg-gray-400"
+                                    >
+                                        Edit
+                                    </Link>
+                                </div>
+                            </div>
                         ))}
                     </div>
                 </>

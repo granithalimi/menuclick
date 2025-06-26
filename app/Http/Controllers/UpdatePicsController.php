@@ -32,6 +32,7 @@ class UpdatePicsController extends Controller
         $p->update([
             "name" => $request->name,
             "pic" => $pic,
+            "price" => $request->price,
             "category_id" => $request->category,
             "description" => $request->desc
         ]);

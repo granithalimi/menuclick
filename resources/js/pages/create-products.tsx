@@ -6,6 +6,7 @@ export default function CreateProducts({ categories }: any) {
     const { data, setData, post } = useForm<any>({
         name: '',
         desc: '',
+        price: 0,
         pic: null,
         category: undefined,
     });
@@ -51,6 +52,10 @@ export default function CreateProducts({ categories }: any) {
                 <div className="mt-2 flex flex-col justify-start">
                     <label htmlFor="desc">Write a Description about the product</label>
                     <input type="text" id="desc" onChange={e => setData("desc", e.target.value)} className="w-80 rounded-lg bg-white py-1 ps-5 text-black" />
+                </div>
+                <div className="mt-2 flex flex-col justify-start">
+                    <label htmlFor="price">Enter the price of the product</label>
+                    <input type="number" step="0.01" inputMode='decimal' id="price" onChange={e => setData("price", e.target.value)} className="w-80 rounded-lg bg-white py-1 ps-5 text-black" />
                 </div>
                 <div className="mt-2 flex flex-col justify-start">
                     <label htmlFor="category">Select a Category</label>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\TablesController;
@@ -19,11 +20,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
     Route::resource('category', CategoriesController::class)->except(["update"]);
     Route::resource('product', ProductsController::class)->except(['update']);
-    Route::resource('order', OrdersController::class);
+    Route::resource('order', OrdersController::class)->only(["index"]);
     Route::resource('table', TablesController::class)->except(['show', 'store']);
     Route::post("category/update", [UpdatePicsController::class, 'updateCategories'])->name("category.update");;
     Route::post("product/update", [UpdatePicsController::class, 'updateProducts'])->name("product.update");;
 });
+
+Route::get("table/{table}", [HomeController::class, 'index']);
+Route::get("table/{table}/categories/{category}", [HomeController::class, 'show'])->name("table.category");
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';

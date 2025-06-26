@@ -23,7 +23,7 @@ export default function ShowProduct({ product }: any) {
                 <img className="mt-1 h-40 w-40 rounded-lg object-cover" src={`${window.location.origin}/storage/images/${product.pic}`} />
                 <h1>Name: {product.name}</h1>
                 <h1>Description: {product.description}</h1>
-                <h1>Price: </h1>
+                <h1>Price: {product.price}/€</h1>
             </div>
         </DashLayout>
     );
