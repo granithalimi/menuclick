@@ -9,14 +9,13 @@ export default function Home({ categories, all_products, table_id }: any) {
     const [product, setProduct] = useState<any>({});
     const [showProduct, setShowProduct] = useState<any>(false);
     const [showProducts, setShowProducts] = useState<any>(false);
+    const [order, setOrder] = useState<any>({});
+    const [qty, setQty] = useState<any>(1);
+    const [showCart, setShowCart] = useState<any>(false);
 
     useEffect(() => {
         setCategories(categories);
     }, [categories]);
-
-    // useEffect(()=> {
-    //     console.log("a;osdiv")
-    // })
 
     const handleShowProducts = (e: any, id: any) => {
         setShowProducts(true);
@@ -39,13 +38,39 @@ export default function Home({ categories, all_products, table_id }: any) {
             setProduct({});
         }, 600);
     };
+    const handleAddToCart = (e: any, id: any) => {
+        setOrder((p: any) => {
+            if (p.length > 0) {
+                const prod = p.find((p: any) => p.id === id);
+                if (prod) {
+                    p.find((p: any) => p.id === id).qty += qty;
+                    return [...p];
+                }
+                return [...p, { id: id, qty: qty }];
+            }
+            return [{ id: id, qty: qty }];
+        });
+        alert(`${qty} ${product.name}${qty > 1 ? 's' : ''} added to cart`);
+        setQty((p: any) => (p = 1));
+    };
+
+    const placeOrder = (e:any) => {
+        if (order && order.length > 0) {
+            if (confirm('Do  you wanna place this order?')) {
+                console.log('Order placed');
+            }
+        }
+    };
     return (
         <div className="min-h-screen w-full bg-blue-100">
             <Head title="Categories" />
-            <div className="flex justify-center">
-                <Link href="#" className="mt-2 rounded-lg bg-red-500 px-3 py-1 text-white">
+            <div className="flex justify-center gap-1">
+                <Link href="#" className="mt-2 rounded-lg bg-red-500 px-3 py-1 font-extrabold text-white">
                     Call a Waiter
                 </Link>
+                <button onClick={(e) => setShowCart(true)} className="mt-2 rounded-lg bg-yellow-400 px-3 py-1 font-extrabold text-white">
+                    Place Order
+                </button>
             </div>
             {category && category.length > 0 && (
                 <>
@@ -126,14 +151,27 @@ export default function Home({ categories, all_products, table_id }: any) {
                     {product ? (
                         <div className="flex w-full flex-col items-center">
                             <h1 className="product-title-font my-3 text-center text-2xl font-extrabold text-black">{product.name}</h1>
-                            <img className="mx-auto w-9/12 rounded-lg" src={`${window.location.origin}/storage/images/${product.pic}`} />
-                            <div className="mx-auto w-9/12">
+                            <img className="mx-auto w-9/12 rounded-lg md:w-5/12" src={`${window.location.origin}/storage/images/${product.pic}`} />
+                            <div className="mx-auto w-9/12 md:w-5/12">
                                 <h1 className="my-3 text-left font-bold text-gray-500">{product.description}</h1>
                             </div>
                             <h1 className="my-3 text-center font-bold text-green-500">${product.price}</h1>
+                            <div className="my-3 flex items-center gap-3">
+                                <label htmlFor="qty" className="text-left font-bold text-gray-500">
+                                    Quantity:
+                                </label>
+                                <input
+                                    min="1"
+                                    value={qty}
+                                    onChange={(e) => setQty(parseInt(e.target.value))}
+                                    type="number"
+                                    id="qty"
+                                    className="w-16 rounded-md border-1 border-gray-500 py-1 ps-1 text-black"
+                                />
+                            </div>
                             <button
                                 className="rounded-lg bg-blue-500 px-3 py-1 text-sm font-extrabold text-white"
-                                onClick={(e) => console.log('added to cart!!')}
+                                onClick={(e) => handleAddToCart(e, product.id)}
                             >
                                 Add to Cart
                             </button>
@@ -141,6 +179,37 @@ export default function Home({ categories, all_products, table_id }: any) {
                     ) : (
                         <h1 className="text-center text-xl text-black">Loading...</h1>
                     )}
+                </div>
+            </div>
+
+            {/* Show Cart */}
+            <div
+                className={`${showCart ? 'show-cart z-30' : 'hide-cart -z-30'} fixed bottom-0 h-7/12 w-full flex flex-col justify-between rounded-t-3xl bg-blue-100`}
+            >
+                {/* Close button */}
+                <div className="flex w-full justify-end rounded-t-xl bg-green-200 py-4 pe-4">
+                    <IoIosCloseCircle onClick={(e) => setShowCart(false)} className="text-3xl text-red-500" />
+                </div>
+                {/* Orders */}
+                <div className="flex w-full flex-col items-center overflow-y-scroll">
+                    {order && order.length > 0 ? (
+                        <>
+                            {order.map((o: any, ind: any) => (
+                                <div key={ind} className="mb-3 flex w-11/12 gap-3 rounded-lg border-1 border-black py-1 ps-3">
+                                    <h1 className="text-black">{o.id}</h1>
+                                    <h1 className="text-black">{o.qty}</h1>
+                                </div>
+                            ))}
+                        </>
+                    ) : (
+                        <h1 className="text-black">No orders yet :(</h1>
+                    )}
+                </div>
+                {/* Order Button */}
+                <div className="flex w-full justify-end bg-green-200 py-4 pe-4">
+                    <button onClick={(e) => placeOrder(e)} className="rounded-lg bg-green-500 px-3 py-1 text-sm font-extrabold">
+                        Place Order
+                    </button>
                 </div>
             </div>
         </div>

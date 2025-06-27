@@ -24,6 +24,16 @@
     filter: blur(15px);
     transition: all 500ms;
 }
+.show-cart{
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 500ms;
+}
+.hide-cart{
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 500ms;
+}
 
 
 .general-title-font {
