@@ -54,10 +54,11 @@ export default function Home({ categories, all_products, table_id }: any) {
         setQty((p: any) => (p = 1));
     };
 
-    const placeOrder = (e:any) => {
+    const placeOrder = (e: any) => {
         if (order && order.length > 0) {
             if (confirm('Do  you wanna place this order?')) {
                 console.log('Order placed');
+                setOrder({})
             }
         }
     };
@@ -184,29 +185,30 @@ export default function Home({ categories, all_products, table_id }: any) {
 
             {/* Show Cart */}
             <div
-                className={`${showCart ? 'show-cart z-30' : 'hide-cart -z-30'} fixed bottom-0 h-7/12 w-full flex flex-col justify-between rounded-t-3xl bg-blue-100`}
+                className={`${showCart ? 'show-cart z-30' : 'hide-cart -z-30'} fixed bottom-0 flex h-9/12 w-full flex-col rounded-t-3xl bg-blue-100`}
             >
                 {/* Close button */}
-                <div className="flex w-full justify-end rounded-t-xl bg-green-200 py-4 pe-4">
+                <div className="flex h-1/12 w-full justify-end items-center rounded-t-xl bg-green-200 pe-4">
                     <IoIosCloseCircle onClick={(e) => setShowCart(false)} className="text-3xl text-red-500" />
                 </div>
                 {/* Orders */}
-                <div className="flex w-full flex-col items-center overflow-y-scroll">
+                <div className="flex h-10/12 w-full flex-col pt-3 items-center overflow-y-scroll">
                     {order && order.length > 0 ? (
                         <>
                             {order.map((o: any, ind: any) => (
-                                <div key={ind} className="mb-3 flex w-11/12 gap-3 rounded-lg border-1 border-black py-1 ps-3">
-                                    <h1 className="text-black">{o.id}</h1>
-                                    <h1 className="text-black">{o.qty}</h1>
+                                <div key={ind} className="mb-3 flex w-11/12 gap-3 rounded-lg border-1 border-black py-1 ps-3 items-center">
+                                    <img src={`${window.location.origin}/storage/images/${all_products.find((p:any) => p.id == o.id).pic}`} className='w-12 h-12 object-cover rounded-lg' />
+                                    <h1 className="text-black">{all_products.find((p:any) => p.id == o.id).name}</h1>
+                                    <h1 className="text-black">Quantity: {o.qty}</h1>
                                 </div>
                             ))}
                         </>
                     ) : (
-                        <h1 className="text-black">No orders yet :(</h1>
+                        <h1 className="text-black my-2">No orders yet :(</h1>
                     )}
                 </div>
                 {/* Order Button */}
-                <div className="flex w-full justify-end bg-green-200 py-4 pe-4">
+                <div className="flex h-1/12 w-full items-center justify-end bg-green-200 py-4 pe-4">
                     <button onClick={(e) => placeOrder(e)} className="rounded-lg bg-green-500 px-3 py-1 text-sm font-extrabold">
                         Place Order
                     </button>
