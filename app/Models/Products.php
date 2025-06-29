@@ -14,4 +14,8 @@ class Products extends Model
         'description',
         'category_id',
     ];
+
+    public function orders_products(){
+        return $this->hasMany(OrdersProducts::class);
+    }
 }

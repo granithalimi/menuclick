@@ -15,7 +15,8 @@ class OrdersController extends Controller
     {
         //
         return Inertia::render("orders", [
-            "orders" => Orders::all(),
+            /* "orders" => Orders::with(["products"])->get(), */
+            "orders" => Orders::with(["orders_products" => function($q) {$q->with("products");}, 'table'])->get(),
         ]);
     }
 
