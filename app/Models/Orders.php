@@ -11,4 +11,8 @@ class Orders extends Model
         'table_id',
         'status',
     ];
+
+    public function products(){
+        return $this->hasMany(OrderedProduct::class, "orders_id");
+    }
 }

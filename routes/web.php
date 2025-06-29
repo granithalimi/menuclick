@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MakeOrderController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\TablesController;
@@ -27,7 +28,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::get("table/{table}", [HomeController::class, 'index']);
-/* Route::get("table/{table}/categories/{category}", [HomeController::class, 'show'])->name("table.category"); */
+Route::post("order/post", [MakeOrderController::class, 'store'])->name("order.store");
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';

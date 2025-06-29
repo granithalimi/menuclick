@@ -1,4 +1,4 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import { IoIosCloseCircle } from 'react-icons/io';
 import '../../css/style.css';
@@ -13,9 +13,18 @@ export default function Home({ categories, all_products, table_id }: any) {
     const [qty, setQty] = useState<any>(1);
     const [showCart, setShowCart] = useState<any>(false);
 
+    const { data, setData, post } = useForm<any>({
+        id: table_id,
+        order: null,
+    });
+
     useEffect(() => {
         setCategories(categories);
     }, [categories]);
+
+    useEffect(() => {
+        setData('order', order);
+    }, [order]);
 
     const handleShowProducts = (e: any, id: any) => {
         setShowProducts(true);
@@ -32,13 +41,18 @@ export default function Home({ categories, all_products, table_id }: any) {
         setShowProduct(true);
         setProduct((p: any) => all_products.find((p: any) => p.id === id));
     };
+
     const handleCloseProduct = (e: any) => {
         setShowProduct(false);
         setTimeout(() => {
             setProduct({});
         }, 600);
     };
+
     const handleAddToCart = (e: any, id: any) => {
+        if (qty < 1) {
+            return;
+        }
         setOrder((p: any) => {
             if (p.length > 0) {
                 const prod = p.find((p: any) => p.id === id);
@@ -57,17 +71,39 @@ export default function Home({ categories, all_products, table_id }: any) {
     const placeOrder = (e: any) => {
         if (order && order.length > 0) {
             if (confirm('Do  you wanna place this order?')) {
-                console.log('Order placed');
-                setOrder({})
+                e.preventDefault();
+                console.log(order);
+                post(route('order.store'));
+                setOrder({});
             }
         }
+    };
+
+    const handleAddQty = (e: any, id: any) => {
+        e.preventDefault();
+        setOrder((p: any) => {
+            p.find((p: any) => p.id === id).qty += 1;
+            setData('order', [...p]);
+            return [...p];
+        });
+    };
+    const handleRemoveQty = (e: any, id: any) => {
+        e.preventDefault();
+        setOrder((p: any) => {
+            const prod = p.find((p: any) => p.id === id);
+            if (prod.qty === 1) {
+                return p.filter((p: any) => p.id !== id);
+            }
+            p.find((p: any) => p.id === id).qty -= 1;
+            return [...p];
+        });
     };
     return (
         <div className="min-h-screen w-full bg-blue-100">
             <Head title="Categories" />
             <div className="flex justify-center gap-1">
                 <Link href="#" className="mt-2 rounded-lg bg-red-500 px-3 py-1 font-extrabold text-white">
-                    Call a Waiter
+                    Call a Waiter :(
                 </Link>
                 <button onClick={(e) => setShowCart(true)} className="mt-2 rounded-lg bg-yellow-400 px-3 py-1 font-extrabold text-white">
                     Place Order
@@ -188,23 +224,39 @@ export default function Home({ categories, all_products, table_id }: any) {
                 className={`${showCart ? 'show-cart z-30' : 'hide-cart -z-30'} fixed bottom-0 flex h-9/12 w-full flex-col rounded-t-3xl bg-blue-100`}
             >
                 {/* Close button */}
-                <div className="flex h-1/12 w-full justify-end items-center rounded-t-xl bg-green-200 pe-4">
+                <div className="flex h-1/12 w-full items-center justify-end rounded-t-xl bg-green-200 pe-4">
                     <IoIosCloseCircle onClick={(e) => setShowCart(false)} className="text-3xl text-red-500" />
                 </div>
                 {/* Orders */}
-                <div className="flex h-10/12 w-full flex-col pt-3 items-center overflow-y-scroll">
+                <div className="flex h-10/12 w-full flex-col items-center overflow-y-scroll pt-3">
                     {order && order.length > 0 ? (
                         <>
                             {order.map((o: any, ind: any) => (
-                                <div key={ind} className="mb-3 flex w-11/12 gap-3 rounded-lg border-1 border-black py-1 ps-3 items-center">
-                                    <img src={`${window.location.origin}/storage/images/${all_products.find((p:any) => p.id == o.id).pic}`} className='w-12 h-12 object-cover rounded-lg' />
-                                    <h1 className="text-black">{all_products.find((p:any) => p.id == o.id).name}</h1>
-                                    <h1 className="text-black">Quantity: {o.qty}</h1>
+                                <div
+                                    key={ind}
+                                    className="mb-3 flex w-11/12 items-center justify-between gap-3 rounded-lg border-1 border-black px-3 py-1"
+                                >
+                                    <img
+                                        src={`${window.location.origin}/storage/images/${all_products.find((p: any) => p.id == o.id).pic}`}
+                                        className="h-12 w-12 rounded-lg object-cover"
+                                    />
+                                    <h1 className="text-black">{all_products.find((p: any) => p.id == o.id).name}</h1>
+                                    <h1 className="text-green-500">${all_products.find((p: any) => p.id == o.id).price}</h1>
+                                    <div className="flex items-center gap-2 text-black">
+                                        <h1>qty:</h1>
+                                        <button className="text-xl font-extrabold text-red-500" onClick={(e) => handleRemoveQty(e, o.id)}>
+                                            -
+                                        </button>
+                                        <h1>{o.qty}</h1>
+                                        <button className="text-xl font-extrabold text-green-500" onClick={(e) => handleAddQty(e, o.id)}>
+                                            +
+                                        </button>
+                                    </div>
                                 </div>
                             ))}
                         </>
                     ) : (
-                        <h1 className="text-black my-2">No orders yet :(</h1>
+                        <h1 className="my-2 text-black">No orders yet :(</h1>
                     )}
                 </div>
                 {/* Order Button */}
