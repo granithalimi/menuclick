@@ -40,7 +40,7 @@ export default function Orders({ orders }: any) {
                                 </div>
 
                                 <h1 className="font-extrabold text-green-400 text-end">
-                                    Total: ${o.orders_products.reduce((acc: any, obj: any) => acc + obj.products[0].price * obj.qty, 0)}
+                                    Total: ${o.orders_products.reduce((acc: any, obj: any) => acc + obj.products[0].price * obj.qty, 0).toFixed(2)}
                                 </h1>
                             </div>
                         ))}

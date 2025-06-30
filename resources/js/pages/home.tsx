@@ -268,7 +268,7 @@ export default function Home({ categories, all_products, table_id }: any) {
                                 {order.reduce(
                                     (acc: any, obj: any) => acc + obj.qty * all_products.find((p: any, ind: any) => p.id === obj.id).price,
                                     0,
-                                )}
+                                ).toFixed(2)}
                             </h1>
                         </>
                     ) : (
