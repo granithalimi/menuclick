@@ -260,7 +260,20 @@ export default function Home({ categories, all_products, table_id }: any) {
                     )}
                 </div>
                 {/* Order Button */}
-                <div className="flex h-1/12 w-full items-center justify-end bg-green-200 py-4 pe-4">
+                <div className="flex h-1/12 w-full items-center justify-between bg-green-200 py-4 pe-4">
+                    {order && order.length > 0 ? (
+                        <>
+                            <h1 className="ps-3 font-extrabold text-green-600">
+                                Total: $
+                                {order.reduce(
+                                    (acc: any, obj: any) => acc + obj.qty * all_products.find((p: any, ind: any) => p.id === obj.id).price,
+                                    0,
+                                )}
+                            </h1>
+                        </>
+                    ) : (
+                        <h1 className="ps-3 font-extrabold text-green-600">Total: $0</h1>
+                    )}
                     <button onClick={(e) => placeOrder(e)} className="rounded-lg bg-green-500 px-3 py-1 text-sm font-extrabold">
                         Place Order
                     </button>

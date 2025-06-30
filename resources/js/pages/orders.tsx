@@ -22,18 +22,26 @@ export default function Orders({ orders }: any) {
                     <h1 className="mt-5">Orders:</h1>
                     <div className="grid grid-cols-4 gap-3">
                         {order.map((o: any, ind: any) => (
-                            <div key={ind} className="rounded-lg border-1 border-white p-3">
-                                <h1>Table: #{o.table.table_num}</h1>
+                            <div key={ind} className="flex flex-col justify-between rounded-lg border-1 border-white p-3">
                                 <div>
-                                    Products: <br />
-                                    {o.orders_products.map((p: any, ind: any) => (
-                                        <div className='flex gap-1'>
-                                            <h1>{p.products[0].name}</h1>
-                                            <h1>qty:{p.qty}</h1>
-                                        </div>
-                                    ))}
+                                    <h1 className="text-center font-extrabold mb-1">Table: #{o.table.table_num}</h1>
+                                    <div>
+                                        <span className="font-extrabold">Products: </span>
+                                        {o.orders_products.map((p: any, ind: any) => (
+                                            <div className="flex justify-between  text-gray-400">
+                                                <div className='gap-1 flex'>
+                                                    <h1>{p.products[0].name}</h1>
+                                                    <h1>Qty:{p.qty}</h1>
+                                                </div>
+                                                <h1>${p.qty * p.products[0].price}</h1>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
-                                <h1 className='text-yellow-400'>{o.status}</h1>
+
+                                <h1 className="font-extrabold text-green-400 text-end">
+                                    Total: ${o.orders_products.reduce((acc: any, obj: any) => acc + obj.products[0].price * obj.qty, 0)}
+                                </h1>
                             </div>
                         ))}
                     </div>
