@@ -1,9 +1,15 @@
 import DashLayout from '@/layouts/dash-layout';
 import { Link } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
+import { useEcho, useEchoPublic } from '@laravel/echo-react';
 
-export default function Orders({ orders }: any) {
-    console.log(orders);
+export default function Orders({ orders, auth }: any) {
+    useEchoPublic(`order-channel`, "OrderEvent",(e:any) => {
+        if(e.order){
+            setOrders((p:any) => [e.order, ...p])
+        }
+    })
+
     const [order, setOrders] = useState<any>({});
     useEffect(() => {
         setOrders(orders);
@@ -28,7 +34,7 @@ export default function Orders({ orders }: any) {
                                     <div>
                                         <span className="font-extrabold">Products: </span>
                                         {o.orders_products.map((p: any, ind: any) => (
-                                            <div className="flex justify-between  text-gray-400">
+                                            <div key={ind} className="flex justify-between  text-gray-400">
                                                 <div className='gap-1 flex'>
                                                     <h1>{p.products[0].name}</h1>
                                                     <h1>Qty:{p.qty}</h1>
