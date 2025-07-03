@@ -114,24 +114,17 @@ export default function Home({ categories, all_products, table_id }: any) {
                     <h1 className="general-title-font text-center text-3xl font-extrabold text-black">Categories</h1>
                     <div className="grid grid-cols-2 md:grid-cols-4">
                         {category.map((c: any, ind: any) => (
-                            <div
+                            <button
+                                onClick={(e) => handleShowProducts(e, c.id)}
                                 key={ind}
-                                className="mx-3 my-3 flex flex-col items-center gap-3 rounded-sm border-1 border-black py-3 text-center text-white duration-300"
+                                className="mx-3 my-3 flex flex-col items-center gap-3 rounded-sm border-1 border-gray-300 py-3 text-center text-white shadow-lg shadow-black/10 duration-300 hover:scale-105"
                             >
                                 <img
-                                    className="mt-1 h-10/12 w-10/12 rounded-lg object-cover"
+                                    className="mt-1 h-10/12 w-10/12 rounded-xl object-cover"
                                     src={`${window.location.origin}/storage/images/${c.pic}`}
                                 />
                                 <h1 className="categories-title-font text-xl font-extrabold text-gray-800">{c.name}</h1>
-                                <div className="flex items-center justify-center gap-1 text-black">
-                                    <button
-                                        onClick={(e) => handleShowProducts(e, c.id)}
-                                        className="rounded-lg bg-blue-500 px-3 py-1 text-sm font-extrabold text-white"
-                                    >
-                                        Show Products
-                                    </button>
-                                </div>
-                            </div>
+                            </button>
                         ))}
                     </div>
                 </>
@@ -150,24 +143,20 @@ export default function Home({ categories, all_products, table_id }: any) {
                             <h1 className="general-title-font text-center text-3xl font-extrabold text-black">Products</h1>
                             <div className="grid grid-cols-2 md:grid-cols-4">
                                 {products.map((p: any, ind: any) => (
-                                    <div
+                                    <button
+                                        onClick={(e) => handleShowProduct(e, p.id)}
                                         key={ind}
-                                        className="mx-3 my-3 flex flex-col items-center gap-3 rounded-sm border-1 border-black py-3 text-center text-white duration-300"
+                                        className="mx-3 my-3 flex flex-col items-center gap-3 rounded-sm border-1 border-gray-300 py-3 text-center text-white shadow-lg shadow-black/20 duration-300 hover:scale-105"
                                     >
                                         <img
-                                            className="mt-1 h-10/12 w-10/12 rounded-lg object-cover"
+                                            className="mt-1 h-10/12 w-10/12 rounded-xl object-cover"
                                             src={`${window.location.origin}/storage/images/${p.pic}`}
                                         />
                                         <h1 className="product-title-font text-xl font-extrabold text-black">{p.name}</h1>
                                         <div className="flex items-center justify-center gap-1 text-black">
-                                            <button
-                                                onClick={(e) => handleShowProduct(e, p.id)}
-                                                className="rounded-lg bg-blue-500 px-3 py-1 text-sm font-extrabold text-white"
-                                            >
-                                                Show Product
-                                            </button>
+                                            <h1 className="font-extrabold text-green-500">${p.price}</h1>
                                         </div>
-                                    </div>
+                                    </button>
                                 ))}
                             </div>
                         </>
@@ -207,7 +196,7 @@ export default function Home({ categories, all_products, table_id }: any) {
                                 />
                             </div>
                             <button
-                                className="rounded-lg bg-blue-500 px-3 py-1 text-sm font-extrabold text-white"
+                                className="mb-24 rounded-lg bg-blue-500 px-3 py-1 text-sm font-extrabold text-white"
                                 onClick={(e) => handleAddToCart(e, product.id)}
                             >
                                 Add to Cart
@@ -265,10 +254,9 @@ export default function Home({ categories, all_products, table_id }: any) {
                         <>
                             <h1 className="ps-3 font-extrabold text-green-600">
                                 Total: $
-                                {order.reduce(
-                                    (acc: any, obj: any) => acc + obj.qty * all_products.find((p: any, ind: any) => p.id === obj.id).price,
-                                    0,
-                                ).toFixed(2)}
+                                {order
+                                    .reduce((acc: any, obj: any) => acc + obj.qty * all_products.find((p: any, ind: any) => p.id === obj.id).price, 0)
+                                    .toFixed(2)}
                             </h1>
                         </>
                     ) : (
